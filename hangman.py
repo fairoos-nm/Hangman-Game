@@ -19,10 +19,10 @@ def get_secret_word(word_file="/usr/share/dict/words"):
 
 selected_word = get_secret_word()
 
-#make a function to mask selected word
+# Make a function to mask selected word
 def mask_selected_word(selected_word):
-    x = len(selected_word)
-    a = ((x-1) * "*") 
-    return a
-print (mask_selected_word(selected_word))
-print(selected_word)
+    word_len = len(selected_word)
+    masked_word = ((word_len - 1) * "*") #  (x - 1) to avoid newline char 
+    return masked_word
+
+
