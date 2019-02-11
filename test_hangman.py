@@ -23,3 +23,6 @@ def test_mask_selected_word():
 
 def test_chek_gussed_char_psition():
     assert (hangman.chek_gussed_char('a', 'mankind')) == [1]
+
+def test_add_gussed_char_masked_word():
+    assert(hangman.add_gussed_char_masked_word([2,5], 'n','******')) == '**n**n*' 
