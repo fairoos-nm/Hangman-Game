@@ -34,4 +34,19 @@ def chek_gussed_char(guessed_char,selected_word):
         if guessed_char == a :
             position = [i for i, s in enumerate(list_of_word) if guessed_char  in s]      
     return position
-    
+
+
+def add_gussed_char_masked_word(posi ,guessed_char,m_word):
+    mask_w = m_word
+    list_mask_w = list(mask_w)
+    print(list_mask_w)
+    a =[]
+    for i in posi:
+        list_mask_w[i] = guessed_char
+    unmasked_word = list_mask_w
+    return unmasked_word
+
+
+#def gussed_char():
+ #   guess = input("guess a charecter:  ")
+  #  return guess
