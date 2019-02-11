@@ -18,9 +18,6 @@ def test_secret_word_no_proper_nouns():
 # 4. Mask the selected word
     
 def test_mask_selected_word():
-    assert (hangman.mask_selected_word("words") == "****")
+    assert (hangman.mask_selected_word("words") == "*****")
 
-# 5. Test the numer of chance left.
 
-def test_number_of_chance_left():
-    assert (hangman.number_of_chance_left(10) == 10)
