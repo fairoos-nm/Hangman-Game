@@ -1,4 +1,4 @@
-# hangman.py
+3# hangman.py
 
 import random
 
@@ -46,7 +46,67 @@ def add_gussed_char_masked_word(posi ,guessed_char,m_word):
     unmasked_word = list_mask_w
     return unmasked_word
 
+def main(selected_word = get_secret_word()):
+    chance = 10
+    wrong_guess = ''
+    word=list(selected_word)
 
+    m_word = mask_selected_word(selected_word)
+    posi = chek_gussed_char(guessed_char,selected_word)
+    un_masked_word = add_gussed_char_masked_word(posi ,guessed_char,m_word)
+    str_unmasked_word =''.join(un_masked_word)
+    
+
+    
+    while chance:
+        
+        print(f"\n {str_unmasked_word} \n")
+        print(f"Number of tries left: {chance}")
+        print(f"Wrong guesses so far: {wrong_guess}")
+
+
+        guessed_char=input("Enter your guess:  ")
+        
+        if len(guessed_char)!=1:
+            print("Enter one Char. only!")
+            continue
+        if usr_input in word:
+             m_word = mask_selected_word(selected_word)
+             posi = chek_gussed_char(guessed_char,selected_word)
+             un_masked_word = add_gussed_char_masked_word(posi ,guessed_char,m_word)
+             
+             str_unmasked_word =''.join(un_masked_word)
+             print(str_unmasked_word)
+
+
+        else:
+            print("Wrong Guess:")
+
+
+            wrong_guess = wrong_guess + guessed_char
+
+
+
+            chance = chance - 1
+
+            
+        if selected_word == str_unmasked_word:
+            
+            print("Congratulations! You WON.")
+            break
+            
+        if chance == 0:
+            
+            print(f"Too bad! The secret word was {selected_word}")
+                
+                
+if __name__=='__main__':
+    main()
+            
+            
+           
+        
+    
 #def gussed_char():
  #   guess = input("guess a charecter:  ")
   #  return guess
