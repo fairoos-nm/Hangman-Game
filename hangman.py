@@ -19,10 +19,19 @@ def get_secret_word(word_file="/usr/share/dict/words"):
 
 selected_word = get_secret_word()
 
-# Make a function to mask selected word
+# Make a fuction to mask selected word
 def mask_selected_word(selected_word):
     word_len = len(selected_word)
-    masked_word = ((word_len - 1) * "*") #  (x - 1) to avoid newline char 
+    masked_word = ((word_len) * "*") #  (x - 1) to avoid newline char 
     return masked_word
 
 
+def chek_gussed_char(guessed_char,selected_word):
+    list_of_word = list(selected_word)
+    a = ''
+    for i in range(len(list_of_word)):
+        a = list_of_word[i]
+        if guessed_char == a :
+            position = [i for i, s in enumerate(list_of_word) if guessed_char  in s]      
+    return position
+    
