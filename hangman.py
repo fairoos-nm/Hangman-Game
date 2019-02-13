@@ -68,14 +68,27 @@ def user_input():
         print("Sorry,only one char allowed at a time")
     else:
         return user_input
+    
+def check_allReady(user_ip, char_list):
+   # print(user_ip)
+    for i in char_list:
+        if i == user_ip:
+            return print ("You already guessed it")
+        
+        else:
+            char_list.append(user_ip)
+            return char_list
+            
+        
 
     
 def chances(count):
     selected_word = get_secret_word()
     masked_word =  mask_selected_word(selected_word)
+    char_list = []
     while (count > 0):
         user_input1 = user_input()
-       
+        print(check_allReady(user_input, char_list = []))
         posi = chek_gussed_char(user_input1, selected_word)
         
         if len(posi) == 0:
