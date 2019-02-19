@@ -1,6 +1,7 @@
 # hangman.py
 
 import random
+import emoji
 
 def get_secret_word(word_file="/usr/share/dict/words"):
     with open(word_file) as f:
@@ -16,18 +17,10 @@ def get_secret_word(word_file="/usr/share/dict/words"):
             good_words.append(i)
     return random.choice(good_words)
 
-
-#selected_word = get_secret_word()
-#print(selected_word)
-
-# Make a fuction to mask selected word
 def mask_selected_word(selected_word):
     word_len = len(selected_word)
     masked_word = ((word_len) * "*")  
     return masked_word
-
-#masked_word = mask_selected_word(selected_word)
-#guessed_char = 'n'
 
 def chek_gussed_char(guessed_char, selected_word):
     list_of_word = list(selected_word)
@@ -41,9 +34,6 @@ def chek_gussed_char(guessed_char, selected_word):
             position2 = []
     return position2;
 
-#posi = chek_gussed_char(guessed_char, selected_word)
-#print(posi)
-
 def add_gussed_char_masked_word(posi ,guessed_char, masked_word):
     mask_w = masked_word
     list_mask_w = list(mask_w)
@@ -53,51 +43,34 @@ def add_gussed_char_masked_word(posi ,guessed_char, masked_word):
     unmasked_word = list_mask_w
     return unmasked_word
 
-#print(add_gussed_char_masked_word(posi ,guessed_char, masked_word) )
-
-
-#def chance_left(usre_input):
-   # chance = 10
-    #while chance:
-            
-            
-
 def user_input():
     user_input = input("Guess a character: ")
     if len(user_input)  != 1:
-        print("Sorry,only one char allowed at a time")
+        print("\u26a0 sorry,only one char allowed at a time\n")
     else:
         return user_input
     
 def check_allReady(user_ip, char_list):
-   # print(user_ip)
-    for i in char_list:
-        if i == user_ip:
-            return print ("You already guessed it")
-        
-        else:
-            char_list.append(user_ip)
-            return char_list
-            
-        
-
+    if user_ip in char_list:
+        return print ("""\n\u274E You already guessed it\n""")
     
 def chances(count):
     selected_word = get_secret_word()
     masked_word =  mask_selected_word(selected_word)
+    print(masked_word)
     char_list = []
     while (count > 0):
         user_input1 = user_input()
-        print(check_allReady(user_input, char_list = []))
+        check_allReady(user_input1, char_list)
+        char_list.append(user_input1)
         posi = chek_gussed_char(user_input1, selected_word)
         
         if len(posi) == 0:
-            messag1=("Your guess is wrong")
-            print('\n'.join('{:^80}'.format(s) for s in messag1.split('\n')))
+            print(emoji.emojize(':thumbs_down:'), "Your guess is wrong")
         else:
             unmask =(add_gussed_char_masked_word(posi , user_input1, masked_word))
             unmask_str = ''.join(unmask)
-            print(unmask_str)
+            print(emoji.emojize(':thumbs_up:'), unmask_str)
             masked_word = add_gussed_char_masked_word(posi , user_input1, masked_word)
             if unmask_str == selected_word:
                 print("\n\n")
@@ -107,32 +80,17 @@ def chances(count):
                 print("\n\n")
                 break
         count = count - 1
-        print("remining chances: ", count,"\n")
+        print("\n\u23F3 remining chances: ", count,"\n")
         if count == 0:
-            print("Sorry! you lose")
+            print("\u26F5  Sorry! you lose")
             print("The word was: ", selected_word)
             break
     return count
 
-
-
-
 def main():
     Message = "welcome to Hangman_Game\nYou have 10 chances!"       
     print('\n'.join('{:^80}'.format(s) for s in Message.split('\n')))
-    selected_word = get_secret_word()
-   #print(selected_word)
-    print(mask_selected_word(selected_word))
     chances(10)
-    
-
-       
-   #print("remining chances:", chances(10) ,'\n')
-        
-        
-
-        
-
-
+ 
 if __name__ == '__main__':
     main()
