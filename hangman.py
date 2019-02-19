@@ -43,10 +43,10 @@ def add_gussed_char_masked_word(posi ,guessed_char, masked_word):
     unmasked_word = list_mask_w
     return unmasked_word
 
-def user_input():
+def user_input(input=input):
     user_input = input("Guess a character: ")
     if len(user_input)  != 1:
-        print("\u26a0 sorry,only one char allowed at a time\n")
+        raise Exception("\u26a0 sorry,only one char allowed at a time\n")
     else:
         return user_input
     
