@@ -1,6 +1,7 @@
 # test_hangman.py
 
 import hangman
+import pytest
 
 # 1. Secret word should have atleast 6 letters
 # 2. Secret word should have no punctuation
@@ -27,5 +28,13 @@ def test_chek_gussed_char_psition():
 def test_add_gussed_char_masked_word():
     assert(hangman.add_gussed_char_masked_word([1,5,6], 'n','********')) == ['*', 'n', '*', '*', '*', 'n', 'n', '*']
 
-
-
+def test_user_input_multiple_char():
+    def fake_input(_):
+        return 'aa'
+    with pytest.raises(Exception):
+        user_input(fake_input)
+def test_user_input_normal():
+    def fake_input(_):
+        return 'a'
+    assert user_input(fake_input) == 'a'
+    
