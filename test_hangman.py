@@ -18,7 +18,7 @@ def test_secret_word_no_proper_nouns():
 # 4. Mask the selected word
     
 def test_mask_selected_word():
-    assert (hangman.mask_selected_word("words") == "*****")
+    assert (hangman.mask_selected_word("words") == "🔒🔒🔒🔒🔒")
 
 
 def test_chek_gussed_char_psition():
@@ -26,15 +26,18 @@ def test_chek_gussed_char_psition():
     assert (hangman.chek_gussed_char('w', 'mankind')) == []
 
 def test_add_gussed_char_masked_word():
-    assert(hangman.add_gussed_char_masked_word([1,5,6], 'n','********')) == ['*', 'n', '*', '*', '*', 'n', 'n', '*']
+    assert(hangman.add_gussed_char_masked_word([1,5,6], 'n','********')) == ['*', '🅝 ', '*', '*', '*', '🅝 ', '🅝 ', '*']
 
 def test_user_input_multiple_char():
     def fake_input(_):
         return 'aa'
-    with pytest.raises(Exception):
-        user_input(fake_input)
+    assert hangman.user_input(fake_input) == None
 def test_user_input_normal():
     def fake_input(_):
         return 'a'
-    assert user_input(fake_input) == 'a'
-    
+    assert hangman.user_input(fake_input) == 'a'
+
+def test_check_allReady():
+    assert hangman.check_allReady('a' ,['a' ,'b','c']) == True
+
+
