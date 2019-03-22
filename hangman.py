@@ -1,8 +1,7 @@
 # hangman.py
 
 import random
-import emoji
-
+import time
 def get_secret_word(word_file="/usr/share/dict/words"):
     with open(word_file) as f:
         good_words = []
@@ -18,8 +17,9 @@ def get_secret_word(word_file="/usr/share/dict/words"):
     return random.choice(good_words)
 
 def mask_selected_word(selected_word):
+    print(selected_word)
     word_len = len(selected_word)
-    masked_word = ((word_len) * "*")  
+    masked_word = ((word_len) * "🔒")  
     return masked_word
 
 def chek_gussed_char(guessed_char, selected_word):
@@ -33,57 +33,95 @@ def chek_gussed_char(guessed_char, selected_word):
         else:
             position2 = []
     return position2;
+char_dict = {"a":"🅐 ", "b":"🅑 ", "c":"🅒 ", "d":"🅓 ",
+             "e":"🅔 ", "f":"🅕 ", "g":"🅖 ", "h":"🅗 ",
+             "i":"🅘 ", "j":"🅙 ", "k":"🅚 ", "l":"🅛 ",
+             "m":"🅜 ", "n":"🅝 ", "o":"🅞 ", "p":"🅟 ",
+             "q":"🅠 ", "r":"🅡 ", "s":"🅢 ", "t":"🅣 ",
+             "u":"🅤 ", "v":"🅥 ", "w":"🅦 ", "x":"🅧 ",
+             "y":"🅨 ", "z":"🅩 "}  
 
+def get_value(char, char_dict): 
+    for key, value in char_dict.items(): 
+        if char == key: 
+            return value 
+
+def get_unmask_string(unmask_str, char_dict):
+    letters_list = unmask_str.split()
+    make_list= list()
+    for letter in letters_list:
+        for key, value in char_dict.items():
+            if letter +" " == value:
+                make_list.append(key)
+    word = ""
+    for letters in make_list:
+        word += letters
+    return word
+    
 def add_gussed_char_masked_word(posi ,guessed_char, masked_word):
     mask_w = masked_word
     list_mask_w = list(mask_w)
-   #print(list_mask_w)
     for i in posi:
-        list_mask_w[i] = guessed_char
+        letter_emoji = get_value(guessed_char, char_dict)
+        list_mask_w[i] = letter_emoji
     unmasked_word = list_mask_w
-    return unmasked_word
+    return unmasked_word 
 
 def user_input(input=input):
     user_input = input("Guess a character: ")
     if len(user_input)  != 1:
-        raise Exception("\u26a0 sorry,only one char allowed at a time\n")
+        print("{: ^80s}".format("🛑sorry,only one char allowed at a time🛑"))
+    elif user_input.isupper():
+        print("{: ^80s}".format("🛑please enter a lowercase letter🛑"))
+    elif user_input.isnumeric():
+        print("{: ^80s}".format("🛑numbers not allowde🛑"))
     else:
         return user_input
     
 def check_allReady(user_ip, char_list):
     if user_ip in char_list:
-        return print ("""\n\u274E You already guessed it\n""")
+        return True
     
 def chances(count):
     selected_word = get_secret_word()
     masked_word =  mask_selected_word(selected_word)
-    print(masked_word)
+    print()
+    print("{: ^70s}".format(masked_word))
     char_list = []
     while (count > 0):
+        print("\n", "= " * 50)
         user_input1 = user_input()
-        check_allReady(user_input1, char_list)
+        if user_input1 == None:
+            print("{: ^80s}".format("please enter a valied charector"))
+            continue
+        if check_allReady(user_input1, char_list) :
+            print("{: ^80s}".format("Sorry!-You already guessed it"))
         char_list.append(user_input1)
         posi = chek_gussed_char(user_input1, selected_word)
-        
+
         if len(posi) == 0:
-            print(emoji.emojize(':thumbs_down:'), "Your guess is wrong")
+            print("{: ^80s}".format("Your guess is wrong"))
         else:
             unmask =(add_gussed_char_masked_word(posi , user_input1, masked_word))
             unmask_str = ''.join(unmask)
-            print(emoji.emojize(':thumbs_up:'), unmask_str)
+            print("\n", "{: ^70s}".format(unmask_str))
             masked_word = add_gussed_char_masked_word(posi , user_input1, masked_word)
-            if unmask_str == selected_word:
+            unmask_string = get_unmask_string(unmask_str, char_dict)
+            if unmask_string == selected_word:
                 print("\n\n")
-                print(26 * u"\u2668")
+                print(26 * "🏆")
                 print("Congratulations! You WON.")
-                print(26 * u"\u2663")
+                print(26 * "🏆")
                 print("\n\n")
                 break
         count = count - 1
-        print("\n\u23F3 remining chances: ", count,"\n")
+        for i in range(count):
+            print("💎", sep=' ', end='', flush=True)
+            time.sleep(.1)
         if count == 0:
-            print("\u26F5  Sorry! you lose")
-            print("The word was: ", selected_word)
+            print()
+            print("{: ^80s}".format("Sorry! you lose"))
+            print("🡆 The word was: ", selected_word)
             break
     return count
 
